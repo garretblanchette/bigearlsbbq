@@ -207,7 +207,7 @@ async function loadAI(){
   const el=document.getElementById('aiOut');
   try{
     const reviews=R.map((r,i)=>`${i+1}. (${r.p}, ${r.r}★) "${r.t}"`).join('\n');
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
+    const res=await fetch('https://bigearlsbbq.garretblanchette.workers.dev',{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,
         messages:[{role:'user',content:`Analyze these Big Earl's Barbeque reviews. Respond ONLY with JSON, no markdown or backticks:\n{"verdict":"4-6 word punchy verdict","summary":"2 compelling sentences about what reviewers love","topDishes":["dish1","dish2","dish3"],"vibe":"1 sentence about atmosphere","pct":number 0-100 estimated percent who would return}\n\nReviews:\n${reviews}`}]})
