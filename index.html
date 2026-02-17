@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Big Earl's Barbeque — Reviews</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--smoke:#1a1411;--ember:#c8420d;--char:#2a2118;--ash:#3d3229;--cream:#f5ede3;--gold:#d4a24e;--muted:#b8a99a;--border:rgba(212,162,78,.15)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--smoke);color:var(--cream);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(200,66,13,.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(212,162,78,.04) 0%,transparent 50%);pointer-events:none}
+.page{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:48px 20px 100px}
+
+/* Header */
+.hdr{text-align:center;margin-bottom:48px}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.tag::before,.tag::after{content:'';width:36px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(32px,5vw,54px);line-height:1.1;margin-bottom:12px}
+h1 em{font-style:normal;background:linear-gradient(135deg,var(--ember),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{font-size:15px;color:var(--muted);max-width:480px;margin:0 auto;line-height:1.6}
+
+/* Stats */
+.stats{display:flex;background:var(--char);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:40px}
+.st{flex:1;padding:24px 16px;text-align:center;position:relative;transition:background .3s}
+.st:not(:last-child)::after{content:'';position:absolute;right:0;top:18%;height:64%;width:1px;background:var(--border)}
+.st:hover{background:rgba(212,162,78,.04)}
+.st-src{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px}
+.st-ico{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff}
+.st-ico.y{background:#d32323}.st-ico.g{background:#4285F4}.st-ico.t{background:#34E0A1;color:#1a1411}
+.st-lbl{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+.st-n{font-family:'Playfair Display',serif;font-size:34px;font-weight:900;color:var(--gold);line-height:1;margin-bottom:4px}
+.stars{display:flex;justify-content:center;gap:2px;margin-bottom:4px}.stars .s{color:var(--gold);font-size:13px}.stars .s.o{color:var(--ash)}.stars .s.h{position:relative;color:var(--ash)}.stars .s.h::before{content:'★';position:absolute;left:0;width:50%;overflow:hidden;color:var(--gold)}
+.st-ct{font-size:11px;color:var(--muted)}
+
+/* AI Box */
+.ai{background:linear-gradient(135deg,var(--char),var(--smoke));border:1px solid rgba(212,162,78,.2);border-radius:20px;padding:28px 24px;margin-bottom:40px;position:relative;overflow:hidden}
+.ai::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ember),var(--gold),var(--ember))}
+.ai-top{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.ai-gem{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,var(--ember),var(--gold));display:flex;align-items:center;justify-content:center;font-size:14px}
+.ai-top span{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
+#aiOut .v{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;margin-bottom:6px}
+#aiOut .p{font-size:14px;line-height:1.7;color:var(--muted);margin-bottom:20px;max-width:600px}
+.ai-cols{display:flex;gap:12px;flex-wrap:wrap}
+.ai-c{flex:1;min-width:160px;background:rgba(212,162,78,.05);border-radius:12px;padding:14px;border:1px solid rgba(212,162,78,.08)}
+.ai-c h4{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+.ai-c li{list-style:none;display:flex;align-items:center;gap:7px;margin-bottom:4px;color:var(--cream);font-size:13px}
+.ai-c li::before{content:'◆';color:var(--ember);font-size:8px}
+.ai-c .vibe{color:var(--cream);font-size:13px;line-height:1.6}
+.bar-w{margin-top:10px;display:flex;align-items:center;gap:8px}
+.bar-t{height:5px;flex:1;border-radius:3px;background:var(--ash);overflow:hidden}
+.bar-f{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--ember),var(--gold));transition:width 1s}
+.bar-p{color:var(--gold);font-size:13px;font-weight:700}
+.bar-l{font-size:10px;color:var(--muted);margin-top:2px}
+.ld{display:flex;flex-direction:column;align-items:center;padding:24px 0;gap:10px}
+.spin{width:32px;height:32px;border:3px solid var(--ash);border-top-color:var(--gold);border-radius:50%;animation:sp .8s linear infinite}
+.ld span{color:var(--muted);font-size:12px}
+
+/* Filters */
+.fil{display:flex;justify-content:center;gap:8px;margin-bottom:32px;flex-wrap:wrap}
+.fb{padding:9px 20px;border-radius:100px;border:1px solid var(--border);background:0;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .3s}
+.fb:hover{border-color:var(--gold);color:var(--gold)}.fb.on{background:var(--gold);border-color:var(--gold);color:var(--smoke)}
+
+/* Grid */
+.gr{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px;margin-bottom:40px}
+.cd{background:var(--char);border:1px solid var(--border);border-radius:16px;padding:24px 22px;position:relative;transition:all .4s;overflow:hidden;animation:fu .5s ease-out backwards}
+.cd::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ember),var(--gold));opacity:0;transition:opacity .3s}
+.cd:hover{transform:translateY(-4px);border-color:rgba(212,162,78,.3);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.cd:hover::before{opacity:1}
+.cd:nth-child(1){animation-delay:.05s}.cd:nth-child(2){animation-delay:.1s}.cd:nth-child(3){animation-delay:.15s}.cd:nth-child(4){animation-delay:.2s}.cd:nth-child(5){animation-delay:.25s}.cd:nth-child(6){animation-delay:.3s}.cd:nth-child(7){animation-delay:.35s}.cd:nth-child(8){animation-delay:.4s}
+.qm{position:absolute;top:12px;right:18px;font-family:'Playfair Display',serif;font-size:52px;color:var(--border);pointer-events:none;user-select:none}
+.cd-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cd-w{display:flex;align-items:center;gap:10px}
+.av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--smoke)}
+.av.y{background:linear-gradient(135deg,#d32323,#ff4444)}.av.g{background:linear-gradient(135deg,#4285F4,#63a4ff)}.av.t{background:linear-gradient(135deg,#34E0A1,#5ff5c0)}
+.cd-n{font-weight:600;font-size:13px}.cd-d{font-size:11px;color:var(--muted)}
+.bg{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 9px;border-radius:6px}
+.bg.y{background:rgba(211,35,35,.18);color:#ff5c5c}.bg.g{background:rgba(66,133,244,.18);color:#79abff}.bg.t{background:rgba(52,224,161,.18);color:#34E0A1}
+.cd-s{display:flex;gap:2px;margin-bottom:10px;font-size:12px}
+.cd-hl{font-style:italic;color:var(--cream);padding-left:12px;border-left:2px solid var(--ember);margin-bottom:10px;font-size:13px;line-height:1.5}
+.cd-t{font-size:13px;line-height:1.7;color:var(--muted);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.cd-t.open{-webkit-line-clamp:unset}
+.mb{background:0;border:0;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;margin-top:6px;padding:0}
+
+/* CTA */
+.cta{text-align:center;padding-top:16px}.cta p{color:var(--muted);font-size:14px;margin-bottom:16px}
+.cta-l{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.cl{display:inline-flex;align-items:center;gap:7px;padding:11px 22px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;text-decoration:none;transition:all .3s}
+.cl.y{background:rgba(211,35,35,.1);border:1px solid rgba(211,35,35,.25);color:#ff5c5c}
+.cl.g{background:rgba(66,133,244,.1);border:1px solid rgba(66,133,244,.25);color:#79abff}
+.cl.t{background:rgba(52,224,161,.1);border:1px solid rgba(52,224,161,.25);color:#34E0A1}
+.cl:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+
+/* Chat */
+.fab{position:fixed;bottom:22px;right:22px;z-index:1000;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--ember),var(--gold));border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(200,66,13,.4);transition:transform .3s;font-size:26px}
+.fab:hover{transform:scale(1.1)}
+.cp{position:fixed;bottom:22px;right:22px;z-index:1000;width:370px;max-width:calc(100vw - 28px);height:min(540px,78vh);background:var(--smoke);border:1px solid rgba(212,162,78,.25);border-radius:20px;overflow:hidden;display:none;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.6)}
+.cp.open{display:flex}
+.cp-h{background:linear-gradient(135deg,#c8420d,#8b2a06);padding:16px 18px;display:flex;align-items:center;justify-content:space-between}
+.cp-h-l{display:flex;align-items:center;gap:10px}
+.cp-h-n{font-weight:700;font-size:14px}.cp-h-s{font-size:10px;color:rgba(245,237,227,.65)}
+.cp-x{background:rgba(0,0,0,.2);border:0;color:var(--cream);width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center}
+.cp-b{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.cp-w p{color:var(--muted);font-size:13px;margin-bottom:14px;line-height:1.5}
+.sugs{display:flex;flex-wrap:wrap;gap:6px}
+.sg{background:rgba(212,162,78,.07);border:1px solid rgba(212,162,78,.18);border-radius:100px;padding:7px 13px;color:var(--gold);font-size:11px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
+.sg:hover{background:rgba(212,162,78,.14)}
+.m{max-width:84%}.m.u{align-self:flex-end}.m.b{align-self:flex-start}
+.bbl{padding:11px 15px;font-size:13px;line-height:1.6;color:var(--cream)}
+.m.u .bbl{background:linear-gradient(135deg,#c8420d,#a03508);border-radius:14px 14px 3px 14px}
+.m.b .bbl{background:var(--char);border:1px solid rgba(212,162,78,.1);border-radius:14px 14px 14px 3px}
+.typ .bbl{display:flex;gap:5px;padding:13px 18px;background:var(--char);border:1px solid rgba(212,162,78,.1);border-radius:14px 14px 14px 3px}
+.dt{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:bn 1s infinite}.dt:nth-child(2){animation-delay:.2s}.dt:nth-child(3){animation-delay:.4s}
+.cp-i{padding:10px 14px;border-top:1px solid rgba(212,162,78,.1);display:flex;gap:8px;background:var(--smoke)}
+.cp-i input{flex:1;background:var(--char);border:1px solid rgba(212,162,78,.12);border-radius:12px;padding:11px 14px;color:var(--cream);font-size:13px;font-family:'DM Sans',sans-serif;outline:0;transition:border-color .2s}
+.cp-i input:focus{border-color:rgba(212,162,78,.35)}
+.cp-i input::placeholder{color:var(--muted)}
+.snd{width:42px;height:42px;border-radius:12px;border:0;cursor:pointer;color:var(--cream);font-size:17px;display:flex;align-items:center;justify-content:center;transition:all .2s;background:var(--ash)}
+.snd.go{background:linear-gradient(135deg,var(--ember),var(--gold));cursor:pointer}
+
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sp{to{transform:rotate(360deg)}}
+@keyframes bn{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+@media(max-width:700px){.stats{flex-direction:column}.st:not(:last-child)::after{width:60%;height:1px;right:20%;top:auto;bottom:0}.gr{grid-template-columns:1fr}.ai-cols{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="hdr">
+    <div class="tag">What People Are Saying</div>
+    <h1>Rave Reviews for <em>Real BBQ</em></h1>
+    <p class="sub">Don't just take our word for it — see what diners across the valley are saying about Big Earl's Barbeque.</p>
+  </div>
+
+  <div class="stats">
+    <div class="st"><div class="st-src"><div class="st-ico y">Y</div><span class="st-lbl">Yelp</span></div><div class="st-n">4.5</div><div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s h">★</span></div><div class="st-ct">53 reviews</div></div>
+    <div class="st"><div class="st-src"><div class="st-ico g">G</div><span class="st-lbl">Google</span></div><div class="st-n">4.6</div><div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s h">★</span></div><div class="st-ct">120+ reviews</div></div>
+    <div class="st"><div class="st-src"><div class="st-ico t">T</div><span class="st-lbl">TripAdvisor</span></div><div class="st-n">4.0</div><div class="stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s o">★</span></div><div class="st-ct">4 reviews</div></div>
+  </div>
+
+  <div class="ai"><div class="ai-top"><div class="ai-gem">✦</div><span>AI-Powered Review Summary</span></div><div id="aiOut"><div class="ld"><div class="spin"></div><span>Analyzing reviews with AI...</span></div></div></div>
+
+  <div class="fil"><button class="fb on" onclick="fil('all',this)">All Reviews</button><button class="fb" onclick="fil('yelp',this)">Yelp</button><button class="fb" onclick="fil('google',this)">Google</button><button class="fb" onclick="fil('tripadvisor',this)">TripAdvisor</button></div>
+
+  <div class="gr" id="gr"></div>
+
+  <div class="cta"><p>Loved your meal? Leave us a review!</p><div class="cta-l">
+    <a class="cl y" href="https://www.yelp.com/biz/big-earl-s-barbeque-palm-springs-3" target="_blank">★ Review on Yelp</a>
+    <a class="cl g" href="https://www.google.com/search?q=Big+Earl%27s+Barbeque+Palm+Springs+reviews" target="_blank">★ Review on Google</a>
+    <a class="cl t" href="https://www.tripadvisor.com/Restaurant_Review-g32847-d32935505-Reviews-Big_Earl_s-Palm_Springs_Greater_Palm_Springs_California.html" target="_blank">★ Review on TripAdvisor</a>
+  </div></div>
+</div>
+
+<button class="fab" id="fab" onclick="document.getElementById('cp').classList.add('open');this.style.display='none'">🔥</button>
+<div class="cp" id="cp">
+  <div class="cp-h"><div class="cp-h-l"><span style="font-size:20px">🔥</span><div><div class="cp-h-n">Ask About Earl's</div><div class="cp-h-s">AI-powered · Menu, hours & more</div></div></div><button class="cp-x" onclick="document.getElementById('cp').classList.remove('open');document.getElementById('fab').style.display='flex'">✕</button></div>
+  <div class="cp-b" id="cpb">
+    <div class="cp-w" id="cpw"><p>Hey there! Ask me anything about Big Earl's Barbeque — our menu, hours, what to order, or what folks are saying.</p>
+      <div class="sugs"><button class="sg" onclick="ask(this.textContent)">What are the must-try dishes?</button><button class="sg" onclick="ask(this.textContent)">What are the hours?</button><button class="sg" onclick="ask(this.textContent)">Is it good for families?</button><button class="sg" onclick="ask(this.textContent)">Do you deliver?</button></div>
+    </div>
+  </div>
+  <div class="cp-i"><input id="ci" placeholder="Ask about our BBQ..." onkeydown="if(event.key==='Enter')send()" oninput="document.getElementById('sb').className=this.value.trim()?'snd go':'snd'"><button id="sb" class="snd" onclick="send()">→</button></div>
+</div>
+
+<script>
+const R=[
+  {p:"yelp",n:"Mike T.",i:"M",d:"Jan 2026",r:5,t:"Hands down, the best BBQ in the valley. Yes, it's in a dive bar. The vibe is chill, inviting, relaxing! They have touch tunes, good stiff drinks and friendly workers. The brisket is tender, smoky and juicy. The wings are absolutely amazing — the best I've ever had.",h:"Best BBQ in the valley"},
+  {p:"google",n:"Sarah K.",i:"S",d:"Dec 2025",r:5,t:"We were travelling back from Joshua Tree and decided to stop in here for dinner. The baby back ribs were the star of the show! The brisket was nicely seasoned, chicken thighs were crispy but juicy. Everything was reasonably priced. The portions were generous and the flavors were amazing!",h:"Baby back ribs were the star of the show"},
+  {p:"yelp",n:"James R.",i:"J",d:"Nov 2025",r:5,t:"I fancy myself as an experienced BBQ cook, and the food here is incredible. The wings are absolutely amazing. The brisket is tender, smoky and juicy. I tried a smoked hamburger patty — thick, juicy with a great smoke flavor. Definitely worth a visit.",h:"Some of the best BBQ I've ever had"},
+  {p:"google",n:"David M.",i:"D",d:"Oct 2025",r:5,t:"After watching the Food Channel I was craving good brisket. I stumbled upon Big Earl's and I'm so glad I did. Earl was the manager of Smoke Tree BBQ which had closed. The brisket was absolutely melt-in-your-mouth.",h:"The brisket was melt-in-your-mouth good"},
+  {p:"tripadvisor",n:"Lisa P.",i:"L",d:"Sep 2025",r:5,t:"Who would have thought you could get great BBQ in Palm Springs! The flavors were authentic Texas style and everything was cooked to perfection. The sauce on the side was a great touch. Once you find it, you'll keep coming back.",h:"Great BBQ right in Palm Springs"},
+  {p:"google",n:"Angela W.",i:"A",d:"Aug 2025",r:5,t:"The family had just landed in Palm Springs for spring break. We weren't feeling the chains near the airport, and Big Earl's was the perfect find. The chicken was juicy and the fries were crispy and well seasoned. Delicious and priced well.",h:"This place was amazing!"},
+  {p:"yelp",n:"Chris B.",i:"C",d:"Jul 2025",r:5,t:"The best BBQ I've ever had! The big rib sandwich and the brisket sandwich were both incredible. The meat was perfectly smoked and portions were very generous. Earl himself is the nicest guy — truly passionate about what he does.",h:"The best BBQ I've ever had"},
+  {p:"google",n:"Rachel N.",i:"R",d:"Jun 2025",r:4,t:"The chicken was juicy and the fries were crispy and well seasoned. The burnt ends were a little too saucy for me, but good portion. Overall, I would go back. The food was delicious and priced well.",h:"Delicious food, priced well"}
+];
+
+const CTX=`Big Earl's Barbeque: Texas-style BBQ at 696 S Oleander Rd, Palm Springs, CA 92262, inside Fireside Lounge. Phone: (760) 980-7733. Hours: Tue-Sat 11am-10pm, Closed Sun & Mon. Menu: brisket, pulled pork, chicken wings, baby back ribs, sausage, smoked burgers. Sides: potato salad, coleslaw, collard greens, baked beans, cornbread, fries. Signature dry rub, sauces on side. Delivery available. Near Palm Springs Airport. Casual dive-bar vibe. Yelp 4.5 (53 reviews), Google 4.6 (120+ reviews), TripAdvisor 4.0 (4 reviews).`;
+
+// Platform class map
+const pc={yelp:'y',google:'g',tripadvisor:'t'};
+const pl={yelp:'Yelp',google:'Google',tripadvisor:'TripAdvisor'};
+
+// Render reviews
+function render(filter='all'){
+  const g=document.getElementById('gr');
+  g.innerHTML=R.filter(r=>filter==='all'||r.p===filter).map((r,i)=>`
+    <div class="cd" style="animation-delay:${i*.06}s">
+      <span class="qm">"</span>
+      <div class="cd-h"><div class="cd-w"><div class="av ${pc[r.p]}">${r.i}</div><div><div class="cd-n">${r.n}</div><div class="cd-d">${r.d}</div></div></div><span class="bg ${pc[r.p]}">${pl[r.p]}</span></div>
+      <div class="cd-s">${'<span class="s">★</span>'.repeat(r.r)}${'<span class="s o">★</span>'.repeat(5-r.r)}</div>
+      <div class="cd-hl">${r.h}</div>
+      <p class="cd-t" id="t${i}">${r.t}</p>
+      <button class="mb" onclick="var e=document.getElementById('t${i}');e.classList.toggle('open');this.textContent=e.classList.contains('open')?'Show less':'Read more'">Read more</button>
+    </div>`).join('');
+}
+render();
+
+// Filter
+function fil(f,btn){
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  render(f);
+}
+
+// AI Summary via Claude API
+async function loadAI(){
+  const el=document.getElementById('aiOut');
+  try{
+    const reviews=R.map((r,i)=>`${i+1}. (${r.p}, ${r.r}★) "${r.t}"`).join('\n');
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,
+        messages:[{role:'user',content:`Analyze these Big Earl's Barbeque reviews. Respond ONLY with JSON, no markdown or backticks:\n{"verdict":"4-6 word punchy verdict","summary":"2 compelling sentences about what reviewers love","topDishes":["dish1","dish2","dish3"],"vibe":"1 sentence about atmosphere","pct":number 0-100 estimated percent who would return}\n\nReviews:\n${reviews}`}]})
+    });
+    const d=await res.json();
+    const txt=d.content.map(c=>c.text||'').join('');
+    const j=JSON.parse(txt.replace(/```json|```/g,'').trim());
+    el.innerHTML=`
+      <div class="v">${j.verdict} 🔥</div>
+      <div class="p">${j.summary}</div>
+      <div class="ai-cols">
+        <div class="ai-c"><h4>Top Dishes</h4><ul>${j.topDishes.map(d=>`<li>${d}</li>`).join('')}</ul></div>
+        <div class="ai-c"><h4>The Vibe</h4><div class="vibe">${j.vibe}</div>
+          <div class="bar-w"><div class="bar-t"><div class="bar-f" style="width:${j.pct}%"></div></div><span class="bar-p">${j.pct}%</span></div>
+          <div class="bar-l">would return</div>
+        </div>
+      </div>`;
+  }catch(e){
+    el.innerHTML=`<div style="color:var(--muted);font-size:13px;text-align:center;padding:12px">AI summary unavailable — <button onclick="loadAI()" style="background:0;border:0;color:var(--gold);cursor:pointer;font-family:inherit;text-decoration:underline;font-size:13px">retry</button></div>`;
+  }
+}
+loadAI();
+
+// Chat
+let msgs=[];
+let busy=false;
+
+function ask(t){
+  const w=document.getElementById('cpw');if(w)w.remove();
+  addMsg('u',t);callAI(t);
+}
+
+function send(){
+  const inp=document.getElementById('ci');
+  const t=inp.value.trim();if(!t||busy)return;
+  const w=document.getElementById('cpw');if(w)w.remove();
+  inp.value='';document.getElementById('sb').className='snd';
+  addMsg('u',t);callAI(t);
+}
+
+function addMsg(role,text){
+  const b=document.getElementById('cpb');
+  const d=document.createElement('div');
+  d.className=`m ${role==='u'?'u':'b'}`;
+  d.innerHTML=`<div class="bbl">${text}</div>`;
+  b.appendChild(d);
+  b.scrollTop=b.scrollHeight;
+}
+
+function showTyping(){
+  const b=document.getElementById('cpb');
+  const d=document.createElement('div');d.className='m b typ';d.id='typing';
+  d.innerHTML='<div class="bbl"><div class="dt"></div><div class="dt"></div><div class="dt"></div></div>';
+  b.appendChild(d);b.scrollTop=b.scrollHeight;
+}
+function hideTyping(){const e=document.getElementById('typing');if(e)e.remove();}
+
+async function callAI(text){
+  busy=true;showTyping();
+  msgs.push({role:'user',content:text});
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,
+        system:`You are a friendly assistant for Big Earl's Barbeque. Answer in 2-3 sentences max. Be warm and enthusiastic but genuine.\n\nInfo: ${CTX}\n\nCustomer highlights: ${R.map(r=>`"${r.h}"`).join(', ')}\n\nIf unsure, suggest calling (760) 980-7733.`,
+        messages:msgs})
+    });
+    const d=await res.json();
+    const reply=d.content.map(c=>c.text||'').join('');
+    msgs.push({role:'assistant',content:reply});
+    hideTyping();addMsg('b',reply);
+  }catch(e){
+    msgs.push({role:'assistant',content:"Sorry, I'm having trouble right now. Please call us at (760) 980-7733!"});
+    hideTyping();addMsg('b',"Sorry, I'm having trouble right now. Please call us at (760) 980-7733!");
+  }
+  busy=false;
+}
+</script>
+</body>
+</html>
